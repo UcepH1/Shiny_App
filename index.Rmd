@@ -1,0 +1,69 @@
+---
+title       : Car Performance Shiny App
+subtitle    : 
+author      : UcepH1
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Introduction 
+
+The aim of this pitch is to present the *Car Performance* Shiny App submitted for the last assignment for the *Developping Data Products* course.
+
+The App uses *Motor Trend Car Road Tests Data* to show car perfomance based on user's choice of minimum horse power.
+
+--- .class #id 
+
+## Ui.R
+
+The ***Ui.R*** file contains the structure and the aesthetic caracteristics of the App.
+
+A brief documentation comes with the App to help user start using it : 
+
+The slider allows the user to select the minimum horse power desired.
+
+---
+
+## Server.R
+
+The ***Server.R*** file contains the calculations of the App.
+
+The server loads the data set and performs subsetting and plotting operations to produce the plot showing cars which horse power is at least equal to the value set by user.
+
+The following plot was produced using a threshold horsepower of ***100*** :
+
+```{r, mtcars, echo=FALSE}
+        library(ggplot2);library(ggrepel)
+        working_set = mtcars[mtcars$hp >= 100,]
+        working_set$cyl = as.factor(working_set$cyl)
+        levels(working_set$am) = c("Automatic", "Manual")
+
+        # draw the plot showing mpg by wt for cars with horse power greater
+        # than given value
+        ggplot(data = working_set, aes(x = wt, y = mpg, shape = cyl, color = cyl)) + 
+                geom_point(size = 3.5) + 
+                geom_label_repel(label=rownames(working_set), 
+                                 fill= 'grey', color = 'white') +
+                xlab('weigth')+ ylab('miles per US gallon')+
+                labs(title = 'Cars with horse power greater than given value',
+                     color = "Cylinders", shape = "Cylinders") +
+                theme(legend.position="bottom")
+```
+
+
+---
+
+## Conclusion
+
+
+In this project, we deployed a Shiny App that renders car caracteristics according to a specific horse power threshold set by user.
+
+
+
+
+
